@@ -1,0 +1,99 @@
+---
+
+- name: say hi
+  shell: "echo 'SPDZ-2 WELCOME'"
+
+- name: install spdz dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - libgmp3-dev
+    - libglib2.0-dev
+    - libssl-dev
+    - git
+    - python2.7
+    - yasm
+    - python-pip
+    - m4
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: sym link library
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  with_items:
+    - { src: '/lib/x86_64-linux-gnu/libssl.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libssl.so.10' }
+    - { src: '/lib/x86_64-linux-gnu/libcrypto.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libcrypto.so.10' }
+    - { src: '/usr/lib/x86_64-linux-gnu/libgmp.so.10.3.0', dest: '/usr/lib/libgmp.so.3'}
+
+- name: install gmpy package
+  pip:
+    name: gmpy
+    virtualenv_python: python2.7
+    executable: /usr/bin/pip
+
+# - name: create mpir folder
+  # file: path=/tmp/mpir state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+
+- name: download MPIR
+  get_url: 
+    url: http://mpir.org/mpir-3.0.0.tar.bz2
+    dest: /tmp/mpir.tar.bz2
+    remote_src: true
+  become_user: "{{ user }}"
+
+- name: unarchive MPIR
+  unarchive: 
+    src: /tmp/mpir.tar.bz2
+    dest: /tmp/
+    remote_src: true
+  become_user: "{{ user }}"
+
+
+- name: Running ./configure for MPIR
+  command: "{{ item }} --enable-cxx" 
+  args:
+    chdir: /tmp/mpir-3.0.0/
+  with_items:
+    - ./configure
+  become_user: "{{ user }}"
+
+- name: Running make for MPIR
+  command: "{{ item }}" 
+  args:
+    chdir: /tmp/mpir-3.0.0/
+  with_items:
+    - make
+
+- name: Running "make install" for MPIR
+  command: make install 
+  args:
+    chdir: /tmp/mpir-3.0.0/
+  
+- name: clone SPDZ-2
+  git: 
+    repo: https://github.com/bristolcrypto/SPDZ-2.git
+    dest: /src/spdz-src/
+    force: true
+    recursive: no
+  become_user: "{{ user }}"
+
+- name: copy demo files
+  copy:
+    src: CONFIG.mine
+    dest: /src/spdz-src/CONFIG.mine
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0775
+
+- name: make all spdz
+  command: "make -j all"
+  args:
+    chdir: /src/spdz-src/
