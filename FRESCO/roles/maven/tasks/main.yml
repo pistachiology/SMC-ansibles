@@ -1,0 +1,29 @@
+---
+
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: create maven_path folder
+  file: path=/src/{{maven_version}} state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+- name: get maven
+  become_user: "{{ user }}"
+  get_url: 
+    url: "http://mirror.yannic-bonenberger.com/apache/maven/maven-3/3.5.0/binaries/{{maven_version}}-bin.tar.gz"
+    dest: /tmp/{{maven_version}}.tar.gz
+
+- name: untar maven
+  become_user: "{{ user }}"
+  unarchive: 
+    src: /tmp/{{maven_version}}.tar.gz
+    dest: "/src/"
+    remote_src: true
+
+
+- name: add maven to path
+  lineinfile: dest=/etc/environment
+   state=present
+   backrefs=yes
+   regexp='PATH=(["]*)((?!.*?/src/{{maven_version}}/bin).*?)(["]*)$'
+   line="PATH=\1\2:/src/{{maven_version}}/bin\3"
+

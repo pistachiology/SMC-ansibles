@@ -1,0 +1,30 @@
+---
+
+- name: say hi
+  shell: "echo 'ABY WELCOME'; whoami"
+
+- name: install aby dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - libgmp-dev
+    - libglib2.0-dev
+    - libssl-dev
+    - git
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone aby repository
+  git: 
+    repo: https://github.com/encryptogroup/ABY.git
+    dest: /src/ABY/
+    force: yes
+  become_user: "{{user}}"
+
+- name: make install aby
+  make: 
+    chdir: /src/ABY/
+    target: all
+

@@ -1,0 +1,14 @@
+---
+
+# This playbook deploy ABY framework
+
+
+- hosts: aby-servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+      - aby
+
+

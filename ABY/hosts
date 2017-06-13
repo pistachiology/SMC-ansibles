@@ -1,0 +1,4 @@
+[aby-servers]
+aby-1 ansible_connection=ssh ansible_ssh_user=avi ansible_ssh_pass=smclab123 ansible_python_interpreter=/usr/bin/python3
+aby-2 ansible_connection=ssh ansible_ssh_user=avi ansible_ssh_pass=smclab123 ansible_python_interpreter=/usr/bin/python3
+aby-3 ansible_connection=ssh ansible_ssh_user=avi ansible_ssh_pass=smclab123 ansible_python_interpreter=/usr/bin/python3

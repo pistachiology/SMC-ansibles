@@ -1,0 +1,44 @@
+---
+
+- name: copy compiled fresco to hosts
+  copy:
+    src: fresco-0.2-SNAPSHOT.jar
+    dest: /src/fresco-0.2-SNAPSHOT.jar
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0775
+
+- name: copy compiled with dependecies fresco to hosts
+  copy:
+    src: fresco-0.2-SNAPSHOT-jar-with-dependencies.jar
+    dest: /src/fresco-0.2-SNAPSHOT-jar-with-dependencies.jar
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0775
+
+- name: create demo folder
+  file: path=/src/demo state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+
+- name: copy demo files
+  copy:
+    src: demo
+    dest: /src/
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0775
+    directory_mode: yes
+# - name: clone fresco repository
+#   git: 
+#     repo: https://github.com/aicis/fresco.git
+#     dest: /src/fresco/
+#     force: yes
+#   become_user: "{{user}}"
+
+# - name: make install fresco
+#   shell: "mvn install -DskipITs"
+#   args: 
+#     chdir: /src/fresco
+#   environment:
+#     PATH: /src/{{maven_version}}/bin:{{ ansible_env.PATH }}
+#   become_user: "{{user}}"

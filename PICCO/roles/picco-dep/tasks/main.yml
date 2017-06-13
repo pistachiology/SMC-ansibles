@@ -1,0 +1,53 @@
+---
+
+- name: say hi
+  shell: "echo 'PICCO WELCOME'"
+
+- name: install picco dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - libgmp3-dev
+    - libglib2.0-dev
+    - libssl-dev
+    - git
+    - bison
+    - flex
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: sym link library
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  with_items:
+    - { src: '/lib/x86_64-linux-gnu/libssl.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libssl.so.10' }
+    - { src: '/lib/x86_64-linux-gnu/libcrypto.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libcrypto.so.10' }
+    - { src: '/usr/lib/x86_64-linux-gnu/libgmp.so.10.3.0', dest: '/usr/lib/libgmp.so.3'}
+
+
+- name: clone picco
+  git: 
+    repo: "https://github.com/Pistachiology/picco.git"
+    dest: "/src/picco/"
+    force: true
+  become_user: "{{ user }}"
+
+- name: compile binary
+  shell: ./compile.sh
+  args:
+    chdir: /src/picco/compiler/
+  become_user: "{{ user }}"
+
+
+- name: add picco/bin to path
+  lineinfile: dest=/etc/environment
+   state=present
+   backrefs=yes
+   regexp='PATH=(["]*)((?!.*?/src/picco/compiler/bin/).*?)(["]*)$'
+   line="PATH=\1\2:/src/picco/compiler/bin/\3"
