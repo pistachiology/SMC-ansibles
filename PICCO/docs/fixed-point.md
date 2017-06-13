@@ -45,4 +45,4 @@ OUT=36.5471
 
 ![alt text][fixed-point]
 
-[fixed-point]: ./imgs/fixed-point.png
+[fixed-point]: ../imgs/fixed-point.png

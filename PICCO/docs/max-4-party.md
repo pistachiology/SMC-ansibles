@@ -57,4 +57,4 @@ O=2
 
 ![alt text][find-max-id]
 
-[find-max-id]: ./imgs/find-max-id.png
+[find-max-id]: ../imgs/find-max-id.png
