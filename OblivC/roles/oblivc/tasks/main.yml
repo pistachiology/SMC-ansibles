@@ -1,0 +1,45 @@
+---
+
+- locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: set locale
+  command: /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+- name: install oblivc dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - ocaml 
+    - libgcrypt20-dev
+    - ocaml-findlib
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone oblivc repository
+  git: 
+    repo: https://github.com/samee/obliv-c.git
+    dest: /src/oblivc/
+    force: yes
+  become_user: "{{user}}"
+
+- name: make install oblivc
+  shell: >
+    ./configure && make RELEASE=1
+  args:
+    chdir: /src/oblivc
+
+- name: add {{extra_path}} to path
+  lineinfile: >
+   dest=/etc/environment
+   state=present
+   backrefs=yes
+   regexp='PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+   line="PATH=\1\2:{{extra_path}}\3"
+
+
+
+
