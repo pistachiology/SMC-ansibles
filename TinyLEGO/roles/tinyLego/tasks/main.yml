@@ -1,0 +1,21 @@
+---
+
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone TinyLEGO
+  git:
+    repo: https://github.com/AarhusCrypto/TinyLEGO.git
+    dest: /src/TinyLEGO
+    force: true
+    recursive: false
+  become_user: "{{ user }}"
+
+
+- name: install TinyLEGO
+  shell: >
+    ./cmake-release.sh
+  args:
+    chdir: /src/TinyLEGO
+  become_user: "{{ user }}"

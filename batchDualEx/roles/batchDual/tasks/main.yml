@@ -1,7 +1,7 @@
 ---
 
 
-- name: clone Ivory
+- name: clone batchDualEx
   git:
     repo: https://github.com/osu-crypto/batchDualEx.git
     dest: /src/batchDualEx

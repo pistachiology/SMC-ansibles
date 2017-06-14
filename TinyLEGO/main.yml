@@ -1,0 +1,23 @@
+---
+## file: myplaybook.yml
+
+## usage: ansible-playbook -i <inventory file> myplaybook.yml
+
+# - hosts: production1
+#  roles:
+#    - roleA
+#    - roleB
+#  tasks:
+#    - name: taskA
+#      file: path=~/helloworld.txt state=touch
+# https://cmake.org/files/v3.9/cmake-3.9.0-rc3.tar.gz
+- hosts: servers
+  roles:
+    - { role: kfieldho.cmake, cmake_version: 3.9, cmake_minor_version: 0-rc3}
+
+- hosts: servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+  roles:
+    - tinyLego
