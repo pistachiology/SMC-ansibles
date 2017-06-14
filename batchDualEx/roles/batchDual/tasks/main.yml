@@ -1,0 +1,30 @@
+---
+
+
+- name: clone Ivory
+  git:
+    repo: https://github.com/osu-crypto/batchDualEx.git
+    dest: /src/batchDualEx
+    force: true
+    recursive: false
+  become_user: "{{ user }}"
+
+
+- name: install batchDualEx
+  shell: >
+    bash ./ntl.get;
+  args:
+    chdir: /src/batchDualEx/thirdparty/linux
+  become_user: "{{ user }}"
+- name: make Ivory
+  shell: >
+    cmake -G "Unix Makefiles";
+    make;
+  args:
+    chdir: /src/batchDualEx/
+
+    
+
+
+
+

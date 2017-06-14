@@ -1,0 +1,39 @@
+---
+# tasks file for libOTe
+
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone libOTe
+  git:
+    repo: https://github.com/osu-crypto/libOTe.git
+    dest: /src/libOTe
+    force: true
+  become_user: "{{ user }}"
+
+- name: make libOTe
+  shell: >
+    git reset --hard  e0727fe6dcfdd4;
+    git submodule update --recursive;
+  args:
+    chdir: /src/libOTe/
+
+- name: install libOTe
+  shell: >
+    bash all.get;
+  args:
+    chdir: /src/libOTe/cryptoTools/thirdparty/linux
+  become_user: "{{ user }}"
+
+- name: make libOTe
+  shell: >
+    cmake  -G "Unix Makefiles";
+    make;
+  args:
+    chdir: /src/libOTe/
+
+
+
+
+
