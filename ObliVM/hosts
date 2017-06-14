@@ -1,0 +1,2 @@
+[servers]
+192.168.56.108 ansible_connection=ssh ansible_ssh_user=avi ansible_ssh_pass=smclab123 ansible_python_interpreter=/usr/bin/python3
