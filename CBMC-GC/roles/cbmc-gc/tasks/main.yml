@@ -1,0 +1,39 @@
+---
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - bison
+    - flex
+    - libwww-perl
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: download cbmc-gc
+  get_url:
+    url: http://www.seceng.informatik.tu-darmstadt.de/index.php/assets/software/cbmc-gc-v2.0alpha.tgz
+    dest: /tmp/
+  become_user: "{{ user }}"
+  
+- name: unarchive
+  unarchive:
+    src: /tmp/cbmc-gc-v2.0alpha.tgz
+    dest: /src/
+    remote_src: True
+  become_user: "{{ user }}"
+
+
+- name: make all 
+  make:
+    chdir: /src/cbmc-gc/
+    target: "{{ item }}"
+    params:
+      NUM_THREADS: 4
+  with_items:
+    - minisat2-download
+    - all
+  
