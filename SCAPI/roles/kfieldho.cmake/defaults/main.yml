@@ -1,0 +1,12 @@
+---
+# defaults file for kfieldho.cmake
+cmake_pkg_state: false
+cmake_pkg_type: Linux-x86_64
+cmake_version: 3.4
+cmake_minor_version: 1
+cmake_temp: /tmp/cmake-{{ cmake_version }}.{{ cmake_minor_version }}-{{ cmake_pkg_type }}.tar.gz
+cmake_dest_dir: /opt/kitware
+cmake_install_dir: "{{ cmake_dest_dir }}/cmake-{{cmake_version}}.{{ cmake_minor_version }}-{{cmake_pkg_type}}/"
+cmake_modify_path: True
+cmake_rcfile: ~/.bashrc
+    

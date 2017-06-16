@@ -1,0 +1,3 @@
+---
+# vars file for kfieldho.cmake
+cmake_url: "https://cmake.org/files/v{{ cmake_version }}/cmake-{{ cmake_version }}.{{ cmake_minor_version }}-{{ cmake_pkg_type }}.tar.gz"
