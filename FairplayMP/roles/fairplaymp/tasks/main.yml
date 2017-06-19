@@ -10,10 +10,3 @@
     force: yes
   become_user: "{{user}}"
 
-# - name: make install fresco
-#   shell: "mvn install -DskipITs"
-#   args: 
-#     chdir: /src/fresco
-#   environment:
-#     PATH: /src/{{maven_version}}/bin:{{ ansible_env.PATH }}
-#   become_user: "{{user}}"

@@ -1,0 +1,10 @@
+---
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+
+- name: copy sepia to server
+  copy:
+    src: ./sepia
+    dest: /src/
+  become_user: "{{ user }}"

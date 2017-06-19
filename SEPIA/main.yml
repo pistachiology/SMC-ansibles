@@ -1,0 +1,15 @@
+---
+
+# This playbook deploy ABY framework
+
+
+- hosts: servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+      - java
+      - maven
+      - sepia
+
