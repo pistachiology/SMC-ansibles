@@ -14,6 +14,9 @@
     - libgmp3-dev
     - libglib2.0-dev
     - libssl-dev
+    - libssl-ocaml-dev
+    - wget
+    - apt-utils
 
 - name: sym link library
   file:
@@ -28,19 +31,27 @@
     - { src: '/usr/lib/x86_64-linux-gnu/libgmp.so.10.3.0', dest: '/usr/lib/libgmp.so.3'}
 
 
-- name: clone repository
-  git:
-    repo: git://github.com/cryptobiu/scapi.git
-    dest: "{{ lookup('env','HOME') }}/scapi"
-    force: true
-    recursive: false
-  become_user: "{{ user }}"
-  become: true
+# - name: clone repository
+#   git:
+#     repo: git://github.com/cryptobiu/scapi.git
+#     dest: "{{ ansible_env.HOME}}/scapi"
+#     force: true
+#     recursive: false
+#   become_user: "{{ user }}"
+#   become: true
+
+- get_url:
+    url: https://github.com/cryptobiu/scapi/archive/SCAPI-V2-3-0.tar.gz
+    dest: "{{ ansible_env.HOME }}/"
+
+- name: move file
+  command: "mv {{ ansible_env.HOME }}/scapi-SCAPI-V2-3-0 {{ansible_env.HOME}}/scapi"
+
+
+
 
 - name: create blake path folder
-  file: path="{{  lookup('env','HOME')  }}/scapi/build/libscapi/install/lib" state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
-  become_user: "{{ user }}"
-  become: true
+  file: path="{{ ansible_env.HOME }}/scapi/build/libscapi/install/lib" state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
   
 - name: install
   shell: >
@@ -49,5 +60,5 @@
     sudo make prefix=/usr;
     sudo make install prefix=/usr;
   args:
-    chdir: "/home/{{user}}/scapi/"
+    chdir: "{{ ansible_env.HOME }}/scapi/"
   
