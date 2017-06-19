@@ -1,0 +1,16 @@
+---
+
+# This playbook deploy ABY framework
+
+
+- hosts: servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+      - java
+      - maven
+      - { role: robdyke.ant, ant_version_minor: 8, ant_version_patch: 4, ant_mirror: "https://archive.apache.org/dist/ant/binaries/" }
+      - fairplaymp
+
