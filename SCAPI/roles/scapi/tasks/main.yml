@@ -28,20 +28,19 @@
     - { src: '/usr/lib/x86_64-linux-gnu/libgmp.so.10.3.0', dest: '/usr/lib/libgmp.so.3'}
 
 
-- name: create src folder
-  file: path=~ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
-
 - name: clone repository
   git:
     repo: git://github.com/cryptobiu/scapi.git
-    dest: ~/scapi
+    dest: "{{ lookup('env','HOME') }}/scapi"
     force: true
     recursive: false
   become_user: "{{ user }}"
+  become: true
 
 - name: create blake path folder
-  file: path=~/scapi/build/libscapi/install/lib state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
-
+  file: path="{{  lookup('env','HOME')  }}/scapi/build/libscapi/install/lib" state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+  become_user: "{{ user }}"
+  become: true
   
 - name: install
   shell: >
@@ -50,5 +49,5 @@
     sudo make prefix=/usr;
     sudo make install prefix=/usr;
   args:
-    chdir: "/home/{{ user }}/scapi/"
- 
+    chdir: "/home/{{user}}/scapi/"
+  

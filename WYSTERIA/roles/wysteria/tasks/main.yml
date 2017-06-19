@@ -1,0 +1,73 @@
+---
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - libgmp3-dev
+    - libglib2.0-dev
+    - libssl-dev
+    - git
+    - python2.7
+    - python-pip
+    - autoconf
+    - clang
+    - ocaml-nox
+    - unzip
+  
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: sym link library
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  with_items:
+    - { src: '/lib/x86_64-linux-gnu/libssl.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libssl.so.10' }
+    - { src: '/lib/x86_64-linux-gnu/libcrypto.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libcrypto.so.10' }
+    - { src: '/usr/lib/x86_64-linux-gnu/libgmp.so.10.3.0', dest: '/usr/lib/libgmp.so.3'}
+
+
+
+# - name: create mpir folder
+  # file: path=/tmp/mpir state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+
+- name: download wysteria
+  get_url: 
+    url: https://bitbucket.org/aseemr/wysteria/get/8d93a0477120.zip
+    dest: /tmp/wysteria.zip
+    remote_src: true
+  become_user: "{{ user }}"
+
+- name: unarchive Wysteria
+  unarchive: 
+    src: /tmp/wysteria.zip
+    dest: /src/
+    remote_src: true
+  become_user: "{{ user }}"
+
+- name: install wysteria
+  shell: bash build.sh
+  args:
+    chdir: /src/aseemr-wysteria-8d93a0477120/src
+  
+  become_user: "{{ user }}"
+
+- name: sym link library
+  file:
+    src: "/src/aseemr-wysteria-8d93a0477120/src/{{ item.src }}"
+    dest: "/bin/{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  with_items:
+    - { src: 'z3', dest: 'z3' }
+    - { src: 'mpc.exe', dest: 'mpc.exe' }
+    - { src: 'bin/wysteria', dest: 'wysteria'}
+
