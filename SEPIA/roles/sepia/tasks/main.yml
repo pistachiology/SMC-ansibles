@@ -1,10 +1,37 @@
 ---
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - unzip
+    - build-essential
+    - junit4
+    - wget
 - name: create src folder
-  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+  file: path=/src/sepia/makeconf state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
 
+- name: create src folder
+  file: path=/src/sepia/sample state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
 
 - name: copy sepia to server
   copy:
-    src: ./sepia
-    dest: /src/
+    src: "./{{ item }}"
+    dest: /tmp/{{ item }}
   become_user: "{{ user }}"
+  with_items:
+    - "sampleConfigurations.zip"
+    - "MakeConfig.zip"
+
+- name: extract sample
+  unarchive: 
+    src: "/tmp/sampleConfigurations.zip"
+    dest: "/src/sepia/sample"
+    remote_src: true
+
+- name: extract makeconf
+  unarchive: 
+    src: "/tmp/MakeConfig.zip"
+    dest: "/src/sepia/makeconf"
+    remote_src: true
