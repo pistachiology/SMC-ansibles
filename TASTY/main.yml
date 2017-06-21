@@ -1,0 +1,16 @@
+---
+
+# This playbook deploy ABY framework
+
+
+- hosts: servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+      - tasty-dep
+      - gnuplot-py
+      - tasty
+
+

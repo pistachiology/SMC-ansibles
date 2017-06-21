@@ -1,0 +1,28 @@
+---
+
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- get_url: 
+    url: https://downloads.sourceforge.net/project/gnuplot-py/Gnuplot-py/1.8/gnuplot-py-1.8.tar.gz
+    dest: /tmp/gnuplot-py-1.8.tar.gz
+    remote_src: true
+  become_user: "{{ user }}"
+
+- unarchive:
+    src: /tmp/gnuplot-py-1.8.tar.gz
+    dest: /src/
+    remote_src: true
+  become_user: "{{ user }}"
+
+- command: python setup.py install
+  args:
+    chdir: /src/gnuplot-py-1.8
+
+
+
+# - name: install tasty
+#   command: python setup.py install
+#   args:
+#     chdir: /src/tasty/

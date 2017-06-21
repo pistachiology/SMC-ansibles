@@ -1,0 +1,16 @@
+- get_url:
+    url: https://github.com/encryptogroup/tasty/blob/master/Tasty-Binary-0.1.4-py2.7.tar.bz2?raw=true
+    dest: /tmp/Tasty-Binary-0.1.4-py2.7.tar.bz2
+
+- unarchive:
+    src: /tmp/Tasty-Binary-0.1.4-py2.7.tar.bz2
+    dest: /src/
+    remote_src: True
+
+- command: python install.py 
+  args:
+    chdir: /src/Tasty-Binary-0.1.4-py2.7.egg/
+# - name: install tasty
+#   command: python setup.py install
+#   args:
+#     chdir: /src/tasty/

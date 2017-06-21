@@ -1,0 +1,55 @@
+---
+
+- locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: set locale
+  command: /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - libgmp3-dev
+    - libglib2.0-dev
+    - libssl-dev
+    - git
+    - python2.7
+    - python-pip
+    - mercurial
+    - python-twisted-core
+    - python-gmpy
+    - python-epydoc
+
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: sym link library
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  with_items:
+    - { src: '/lib/x86_64-linux-gnu/libssl.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libssl.so.10' }
+    - { src: '/lib/x86_64-linux-gnu/libcrypto.so.1.0.0', dest: '/lib/x86_64-linux-gnu/libcrypto.so.10' }
+    - { src: '/usr/lib/x86_64-linux-gnu/libgmp.so.10.3.0', dest: '/usr/lib/libgmp.so.3'}
+
+- name: install pylint package
+  pip:
+    name: pylint 
+    virtualenv_python: python2.7
+    executable: /usr/bin/pip
+
+
+- name: install numpy package
+  pip:
+    name: numpy 
+    virtualenv_python: python2.7
+    executable: /usr/bin/pip
+
+
