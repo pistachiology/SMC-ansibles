@@ -1,0 +1,23 @@
+---
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - python2.7
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+
+- name: clone UC
+  git: 
+    repo:  git://github.com/encryptogroup/UC
+    dest: /src/uc/
+    force: true
+  become_user: "{{ user }}"
+
+- command: g++ -o UC UC.cpp chdir=/src/uc/src
+- command: g++ -o Bristol bristol_to_SHDL.cpp chdir=/src/uc/src
