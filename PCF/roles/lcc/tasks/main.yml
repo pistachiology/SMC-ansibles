@@ -1,0 +1,68 @@
+---
+
+- name: install lcc
+  shell:  |
+    export LCCDIR="{{ LCCDIR }}"
+    export SRCDIR="{{ SRCDIR }}"
+    export BUILDDIR="{{ BUILDDIR }}"
+    
+    rm -rf $BUILDDIR
+    rm -rf $SRCDIR
+    
+    mkdir -p $LCCDIR
+    mkdir -p $BUILDDIR
+    mkdir -p $SRCDIR
+
+    cd $LCCDIR
+    git clone https://github.com/drh/lcc.git src
+    
+    cd $SRCDIR
+    make HOSTFILE=etc/linux.c all
+    
+    echo " Platform-specifi include files"
+    mkdir $BUILDDIR/include
+    cp -p -R include/x86/linux/* $BUILDDIR/include
+    echo " Plant a symbolic link named gcc to gcc's library"
+    
+    cd $BUILDDIR
+    ln -s {{ GLIBC_PATH }} gcc
+    
+    echo " Plant symbolic links to the build directory"
+    
+    mkdir -p $BUILDDIR/gcc
+    cd $BUILDDIR/gcc
+  become_user: "{{ user }}"
+
+- file: 
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link 
+  with_items:
+    - { src: "{{BUILDDIR}}", dest: "/usr/local/lib/lcc" }
+    - { src: "/usr/local/lib/lcc/lcc",     dest: "/usr/local/bin/lcc" } 
+    - { src: "/usr/local/lib/lcc/bprint",  dest: "/usr/local/bin/bprint" }
+    - { src: "/usr/bin/cpp",               dest: "{{ BUILDDIR }}/gcc/cpp" }
+    
+    # cd /usr/lib/
+    #sudo ln -s /usr/lib/i386-linux-gnu/crti.o crti.o
+    #sudo ln -s /usr/lib/i386-linux-gnu/crti.o crt1.o
+    #sudo ln -s /usr/lib/i386-linux-gnu/crti.o crtn.o
+    
+    # run tests (optional)
+    # make TARGET=x86/linux test
+    # export LCCDIR=$LCCDIR/build/
+    #exit
+
+- name: check LCCDIR var
+  command: "grep \"^export LCCDIR\" ~/.bashrc"
+  register: LCCDIR_EXISTS
+  failed_when: "LCCDIR_EXISTS.rc == 2"
+  check_mode: no
+  become_user: "{{ user }}"
+
+- name: append line if not exists
+  lineinfile: dest=~/.bashrc line="export LCCDIR = {{ LCCDIR }}/build"
+  when: LCCDIR_EXISTS.stdout == ""
+  become_user: "{{ user }}"
+
+# refs: https://gaipaul.wordpress.com/2014/10/14/how-to-build-lcc-on-32-bit-ubuntu-12-04/

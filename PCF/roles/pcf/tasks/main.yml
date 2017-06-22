@@ -1,0 +1,17 @@
+---
+
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+
+- git:
+    repo: https://github.com/cryptouva/pcf.git
+    dest: /src/pcf
+    force: true
+- name: edit lcc config
+  replace: 
+    path: /src/pcf/lcc_bytecode_gen.sh
+    regexp: "^(LCCDIR)=.*$"
+    replace: '\1={{ LCCDIR }}'
+  
