@@ -1,0 +1,5 @@
+---
+LIBBISON: "libbison-dev_2.7.1.dfsg-1_amd64.deb"
+BISON: "bison_2.7.1.dfsg-1_amd64.deb"
+LIBBISON_URL: "http://launchpadlibrarian.net/140087283/{{ LIBBISON }}"
+BISON_URL: " http://launchpadlibrarian.net/140087282/{{ BISON }}"

@@ -1,0 +1,19 @@
+---
+
+# This playbook deploy ABY framework
+
+
+- hosts: servers
+  roles:
+    - { role: kfieldho.cmake, cmake_version: 3.9, cmake_minor_version: 0-rc3}
+
+- hosts: servers
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+      - { role: kfieldho.cmake, cmake_version: 3.1, cmake_minor_version: 0 } 
+      - frigate
+
+

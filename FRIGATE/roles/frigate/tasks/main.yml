@@ -1,0 +1,44 @@
+---
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - flex
+    - apt-utils
+    - wget
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone frigate
+  git:
+    repo: https://bitbucket.org/bmood/frigaterelease.git
+    recursive: false
+    force: true
+    dest: /src/frigaterelease
+  become_user: "{{ user }}"
+
+- get_url: 
+    url: "{{ item.url }}"
+    dest: "/tmp/{{ item.name }}"
+  with_items:
+    - { url: "{{ LIBBISON_URL }}", name: "{{ LIBBISON }}"}
+    - { url: "{{ BISON_URL }}", name: "{{ BISON }}"}
+  become_user: "{{ user }}"
+
+- name: install bison
+  shell: |
+     dpkg -i /tmp/{{LIBBISON}}
+     dpkg -i /tmp/{{BISON}}
+
+- make:
+    chdir: /src/frigaterelease/src
+
+- file:
+    src: /src/frigaterelease/src/frigate
+    dest: /usr/bin/frigate
+    state: link
+  name: symlink frigate

@@ -1,0 +1,38 @@
+---
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - libgmp3-dev
+    - wget
+    - apt-utils
+
+- name: sym link library
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  with_items:
+    - { src: '/usr/lib/x86_64-linux-gnu/libgmp.so.10.3.0', dest: '/usr/lib/libgmp.so.3'}
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone DUPLO
+  git:
+    repo: https://github.com/AarhusCrypto/DUPLO.git
+    force: true
+    dest: /src/duplo
+  become_user: "{{ user }}"
+
+- name: install DUPLO
+  shell: |
+    ./cmake-release.sh
+    ./build/release/TestDUPLO
+  args:
+    chdir: /src/duplo
