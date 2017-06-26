@@ -1,5 +1,8 @@
 ---
 
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
 - name: install lcc
   shell:  |
     export LCCDIR="{{ LCCDIR }}"
@@ -61,7 +64,7 @@
   become_user: "{{ user }}"
 
 - name: append line if not exists
-  lineinfile: dest=~/.bashrc line="export LCCDIR = {{ LCCDIR }}/build"
+  lineinfile: dest=~/.bashrc line="export LCCDIR={{ LCCDIR }}/build"
   when: LCCDIR_EXISTS.stdout == ""
   become_user: "{{ user }}"
 
