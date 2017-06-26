@@ -1,11 +1,9 @@
-# CBMC-GC
+# Fairplay MP
 
 
 # Run examples
 
-```sh
-cd /src/cbmc-gc/examples/tutorial_addition
-make
-```
+    - already provided in source code
+    refs. https://github.com/FaiplayMP/FairplayMP
 
 # Tested on Ubuntu 16.04

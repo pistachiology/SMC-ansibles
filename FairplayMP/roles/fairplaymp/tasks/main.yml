@@ -1,4 +1,12 @@
 ---
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - ruby
+    
 - name: create src folder
   file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
 

@@ -1,11 +1,11 @@
-# CBMC-GC
+# EMP-TOOLKIT
 
 
 # Run examples
 
 ```sh
-cd /src/cbmc-gc/examples/tutorial_addition
-make
+cd /src/emp-readme/emp-tool/bin/
+./test_bit
 ```
 
 # Tested on Ubuntu 16.04
