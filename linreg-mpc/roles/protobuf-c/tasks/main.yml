@@ -1,0 +1,44 @@
+---
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - autoconf
+    - automake
+    - libtool
+    - curl
+    - unzip
+    - pkg-config
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone repository
+  git: 
+    repo: https://github.com/protobuf-c/protobuf-c.git
+    dest: /src/protobuf-c/
+    force: yes
+  become_user: "{{user}}"
+
+- name: make protobuf
+  shell: >
+     ./autogen.sh && ./configure --prefix=/usr 
+  args:
+    chdir: /src/protobuf-c/
+  become_user: "{{user}}"
+
+- command: make 
+  args:
+    chdir: /src/protobuf-c/
+  become_user: "{{user}}"
+
+
+- command: make install
+  args:
+    chdir: /src/protobuf-c/
+
+
+

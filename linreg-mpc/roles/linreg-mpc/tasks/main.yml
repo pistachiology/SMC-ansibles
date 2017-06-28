@@ -1,0 +1,35 @@
+---
+
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - g++
+    - make
+    - git
+    - libssl-dev
+
+- name: create src folder
+  file: path=/src/ state=directory owner={{user}} group={{user}} mode=0775 recurse=yes
+
+- name: clone repository
+  git: 
+    repo: https://github.com/schoppmp/linreg-mpc.git
+    dest: /src/linreg-mpc/
+    force: yes
+  become_user: "{{user}}"
+
+- name: make protobuf
+  shell: >
+    make BIT_WIDTH_32=1
+  args:
+    chdir: /src/linreg-mpc/
+  environment:
+    OBLIVC_PATH: /src/oblivc/
+
+
+
+
+
+
+
+
