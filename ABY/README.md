@@ -20,17 +20,32 @@ enter sudo password and wait
 
 ### Run Example
 
-```/bin/sh
-$ cd /src/ABY/bin
+```sh
+cd /src/ABY/bin
 ```
 
 On first screen
-``` 
-$ ./millionaire_prob.exe -r 1
+
+```sh
+./millionaire_prob.exe -r 1
 ````
 
 On another screen
-```
-$ ./millionaire_prob.exe -r 0
+
+```sh
+./millionaire_prob.exe -r 0
 ```
 
+### Computation Schemes
+
+| Arithematic Sharing | Boolean Sharing |  Yao's Garbled Circuit |
+| :-----------------: | :-------------: | :--------------------: |
+|          X          |        X        |           X            |
+
+### Number of parties: 2PC
+
+### Compiler: yes
+
+### [Paper](http://thomaschneider.de/papers/DSZ15.pdf)
+
+### [Source code](https://github.com/encryptogroup/ABY)
