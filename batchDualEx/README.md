@@ -24,3 +24,5 @@ cd /src/batchDualEx/bin/
 ### [Paper](https://eprint.iacr.org/2016/632.pdf)
 
 ### [Source code](https://github.com/osu-crypto/batchDualEx)
+
+### Language (or Similar to): no (use circuit as a language).

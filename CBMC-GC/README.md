@@ -14,3 +14,7 @@ make
 ## Number Of Parties: 2PCo
 
 ## Language (or Similar to): ANSI C
+
+### [Paper](http://dl.acm.org/citation.cfm?doid=2382196.2382278)
+
+### [Source code](http://forsyte.at/software/cbmc-gc/)
