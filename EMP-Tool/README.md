@@ -1,5 +1,6 @@
 # EMP-TOOLKIT
 
+## Type: Framework
 
 ## Run examples
 
@@ -10,8 +11,6 @@ cd /src/emp-readme/emp-tool/bin/
 
 ## Tested on Ubuntu 16.04
 
-
-
 | Arithematic Sharing | Boolean Sharing |  Yao's Garbled Circuit |
 | :-----------------: | :-------------: | :--------------------: |
 |          ?          |       ?         |           ?            |
@@ -21,5 +20,7 @@ cd /src/emp-readme/emp-tool/bin/
 ### Compiler: yes
 
 ### [Source code](https://github.com/emp-toolkit)
+
+### [Paper not found](#notfound)
 
 ### Language (or Similar to): C++

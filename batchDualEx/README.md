@@ -25,4 +25,4 @@ cd /src/batchDualEx/bin/
 
 ### [Source code](https://github.com/osu-crypto/batchDualEx)
 
-### Language (or Similar to): no (use circuit as a language).
+### Language (or Similar to): no (use circuit as a language)

@@ -1,12 +1,23 @@
 # Ivory
 
+## Type: Framework
 
-# Run examples
+## Run examples
 
 ```sh
 bin/frontend.exe
 ```
 
-# Tested on Ubuntu 16.04
+## Tested on Ubuntu 16.04
 
-refs: https://github.com/ladnir/Ivory-Runtime
+### Computation Schemes
+
+| Arithematic Sharing | Boolean Sharing |  Yao's Garbled Circuit |
+| :-----------------: | :-------------: | :--------------------: |
+|                     |                 |           X            |
+
+### Number of parties: 2PC
+
+### [Source code](https://github.com/ladnir/Ivory-Runtime)
+
+### Language (or Similar to): C++
