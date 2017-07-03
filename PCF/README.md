@@ -1,7 +1,8 @@
 # PCF
 
+## Type: Framework
 
-# Usage
+## Usage
 
 ```sh
  lcc -c -S -target=bytecode program.c -o program.lcc
@@ -9,7 +10,22 @@
   ./simulate.sh program.pcf2 inputfile.txt
 ```
 
-# Tested On Ubuntu 16.10 
+## Tested On Ubuntu 16.10 
 
-refs: https://github.com/cryptouva/pcf/ 
+### Computation Schemes
 
+| Arithematic Sharing | Boolean Sharing |  Yao's Garbled Circuit |
+| :-----------------: | :-------------: | :--------------------: |
+|                     |                 |           X            |
+
+### Number of parties: Multiparty
+
+### Compiler: yes
+
+### [Official Site](https://www.usenix.org/conference/usenixsecurity13/technical-sessions/paper/kreuter)
+
+### [Source code](https://github.com/cryptouva/pcf/)
+
+### [Paper](https://www.usenix.org/system/files/conference/usenixsecurity13/sec13-paper_kreuter.pdf)
+
+### Language (or Similar to): C
