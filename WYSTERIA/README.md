@@ -26,6 +26,3 @@ https://bitbucket.org/aseemr/wysteria/overview
 ### [Paper](http://www.cs.umd.edu/~aseem/wysteria.pdf)
 
 ### Language (or Similar to): wysteria (I don't actually know similar lang)
-
-
-
