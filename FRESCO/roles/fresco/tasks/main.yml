@@ -1,5 +1,10 @@
 ---
 
+- name: install dependencies
+  apt: name={{item}} state=installed
+  with_items:
+    - default-jdk
+
 - name: copy compiled fresco to hosts
   copy:
     src: fresco-0.2-SNAPSHOT.jar
