@@ -4,10 +4,10 @@
 
 ## Examples
 
-already provided in link 
-https://bitbucket.org/aseemr/wysteria/overview
+already provided in link
+<https://bitbucket.org/aseemr/wysteria/overview>
 
-## Tested On Ubuntu 16.10 
+## Tested On Ubuntu 16.10
 
 ### Computation Schemes
 
