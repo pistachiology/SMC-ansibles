@@ -27,13 +27,13 @@ cd /src/ABY/bin
 On first screen
 
 ```sh
-./millionaire_prob.exe -r 1
+./millionaire_prob.exe -r 0 -a 0.0.0.0
 ````
 
 On another screen
 
 ```sh
-./millionaire_prob.exe -r 0
+./millionaire_prob.exe -r 1 -a <first_screen_ip_addr>
 ```
 
 ### Computation Schemes
