@@ -1,0 +1,143 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.customcode.compare</groupId>
+  <artifactId>compare_number</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>compare_number</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+  <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-configuration</groupId>
+	  <artifactId>commons-configuration</artifactId>
+	  <version>1.6</version>
+    </dependency>
+    
+    <dependency>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-exec</artifactId>
+	  <version>1.2</version>
+    </dependency>
+
+	<dependency>
+	  <groupId>org.bouncycastle</groupId>
+	  <artifactId>bcprov-jdk15on</artifactId>
+	  <version>1.53</version>
+	</dependency>
+	<!-- Database required jars -->
+
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>4.2.2.RELEASE</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.apache.tomcat</groupId>
+		<artifactId>tomcat-jdbc</artifactId>
+		<version>8.0.28</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.6</version>
+	</dependency>
+
+    
+    <!-- Library for parsing command line arguments. -->
+    <dependency>
+	  <groupId>commons-cli</groupId>
+	  <artifactId>commons-cli</artifactId>
+	  <version>1.3</version>
+	</dependency>
+    <dependency>
+      <groupId>fresco</groupId>
+      <artifactId>fresco</artifactId>
+      <version>0.2-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/fresco-0.2-SNAPSHOT-jar-with-dependencies.jar</systemPath>
+    </dependency>
+	
+	<!-- Scapi -->
+
+    <dependency>
+      <groupId>scapi</groupId>
+      <artifactId>scapi</artifactId>
+      <!-- Normally version should be e.g. 2.4.0, but we currently use a custom version 
+           since we need the most recent changes for authenticated channels to work,
+           see https://github.com/cryptobiu/scapi/issues/71. -->
+      <version>dfc8b2da384d87310c8f755b301bc085b1557671</version>
+    </dependency>
+
+	<!-- SCAPI currently has a separate java project for malicious yao 
+	     We built it into a jar and add it here. -->
+	<dependency>
+	  <groupId>scapi</groupId>
+      <artifactId>fastyao</artifactId>
+	  <version>b82956805dc9694d95d04e211c7bffab54294c21</version>
+	</dependency>
+
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+      	  <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+              <archive>
+                <manifest>
+                  <mainClass>org.custom.code.App</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+                <executions>
+              </executions>
+      </plugin>
+<plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>exec-maven-plugin</artifactId>
+  <version>1.2.1</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>java</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <mainClass>org.customcode.compare.App</mainClass>
+  </configuration>
+</plugin>
+    </plugins>
+  </build>
+  <repositories>
+    <repository>
+      <id>mvn-local-repo</id>
+      <url>file://${basedir}/lib</url>
+    </repository>
+  </repositories>
+  
+</project>
