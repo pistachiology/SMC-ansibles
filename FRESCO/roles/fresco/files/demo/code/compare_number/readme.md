@@ -35,3 +35,39 @@ On third screen
 ```sh
 ./run.sh 3 1000
 ```
+
+## Custom Input 
+
+Edit file `GeneratePreprocessedInputDemo.java` for create demo custom input
+
+## Class PreprocessGenerator
+
+### Constructor
+
+    `PreprocessGenerator generator = new PreprocessGenerator(inputPartyId, numberOfComputationParty, threshold);`
+
+### function input(value, dataType={PreprocessDataType.SInt, PreprocessDataType.OInt})  
+
+    ex. generator.input(1000, PreprocessDataType.SInt);
+    
+### function exportToFile()
+
+    - export into usable from for outside input party default path should be "output/computationId-{computationId}/preprocessedInput-{inputPartyId}/"
+    
+## Class PreprocessedFilesInputter 
+
+### Constructor 
+
+     `PreprocessedFilesInputter pfi = new PreprocessedFilesInputter(1, "output/computationId-" + myId);`
+          - argument 1 is number of input party 
+          - argument 2 is folder of input 
+
+### Getting an input
+
+    - pfi.getSInt(partyId) get secret input from input party id
+    - pfi.getOInt(partyId) get open input from input party id
+   
+## Usage
+
+    After we edited code for generate input we can run commnad ./gen_input.sh to create preprocessedInput
+and then edit file source code and compile. we can just run ./run.sh as normal.
