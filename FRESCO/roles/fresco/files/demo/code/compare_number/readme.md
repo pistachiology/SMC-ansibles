@@ -69,5 +69,4 @@ Edit file `GeneratePreprocessedInputDemo.java` for create demo custom input
    
 ## Usage
 
-    After we edited code for generate input we can run commnad ./gen_input.sh to create preprocessedInput
-and then edit file source code and compile. we can just run ./run.sh as normal.
+    After we edited code for generate input we can run commnad ./gen_input.sh to create preprocessedInput and then edit file source code and compile. we can just run ./run.sh as normal.
