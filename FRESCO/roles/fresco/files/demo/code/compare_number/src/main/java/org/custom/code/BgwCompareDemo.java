@@ -3,7 +3,10 @@ package org.custom.code;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang.ObjectUtils.Null;
 import org.custom.helper.BgwComparisonProtocolBuilder;
+import org.custom.helper.PreprocessedFileInput;
+import org.custom.helper.PreprocessedFilesInputter;
 
 import dk.alexandra.fresco.framework.Application;
 import dk.alexandra.fresco.framework.ProtocolFactory;
@@ -41,7 +44,7 @@ import dk.alexandra.fresco.lib.math.integer.min.MinInfFracProtocol;
 public class BgwCompareDemo implements Application {
 	
 	private static final long serialVersionUID = 6415583508947017554L;
-	private static final int numberofParties = 5;
+	private static final int numberofParties = 3;
 	
 	private int myId, myX;
 	private SInt[] x = new SInt[numberofParties];
@@ -67,7 +70,11 @@ public class BgwCompareDemo implements Application {
 							
 		NumericProtocolBuilder npb = new NumericProtocolBuilder(bnFac);
 		BgwComparisonProtocolBuilder cmpb = new BgwComparisonProtocolBuilder(bnFac, itbFactory);
+
+		PreprocessedFilesInputter pfi = new PreprocessedFilesInputter(2, "output/computationId-" + myId);
 		// Input points
+
+		long startTime = System.currentTimeMillis();
 		iob.beginParScope();
 		for(int i = 1 ; i <= numberofParties; i++){
 			x[i - 1] = (myId == (i)) ? iob.input(myX, (i)) : iob.input(i);
@@ -75,12 +82,14 @@ public class BgwCompareDemo implements Application {
 		iob.endCurScope();
 		seq.append(iob.getProtocol());
 
+		/*
 
 		SInt maxParty = npb.getSInt(0);
 		SInt maxPartyValue = x[0];
+		SInt cmpVal = npb.getSInt();
 
 		for(int i = 1; i < numberofParties; i++){
-			SInt cmpVal = cmpb.greaterEqual(x[i], maxPartyValue);
+			cmpVal = cmpb.greaterEqual(x[i], maxPartyValue);
 			seq.append(cmpb.getProtocol());
 
 			maxPartyValue = npb.add(npb.mult(cmpVal, x[i]), npb.mult(npb.sub(npb.getSInt(1), cmpVal), maxPartyValue));  
@@ -88,9 +97,25 @@ public class BgwCompareDemo implements Application {
 			seq.append(npb.getProtocol());
 		}
 
+		*/
+		SInt maxPartyValue = null;
+		SInt v2 = null;
+		try {
+			maxPartyValue = pfi.getSInt(1);
+			v2 = pfi.getSInt(1);
+			maxPartyValue = npb.add(v2, maxPartyValue);
+			seq.append(npb.getProtocol());
+			v2 = pfi.getSInt(2);
+			maxPartyValue = npb.add(v2, maxPartyValue);
+			seq.append(npb.getProtocol());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		// Output result
-		this.partyId = iob.output(maxParty);
+		this.partyId = iob.output(maxPartyValue);
 		seq.append(iob.getProtocol());
+		long endTime = System.currentTimeMillis();
+		System.out.println("Elapsed time: " + ((endTime - startTime) / 1000.0));
 
 
 		return seq;
@@ -131,6 +156,7 @@ public class BgwCompareDemo implements Application {
 		BgwCompareDemo bgwCompareDemo = new BgwCompareDemo(sceConf.getMyId(), x);
 		SCE sce = SCEFactory.getSCEFromConfiguration(sceConf);
 		try {
+			System.out.println("Starting application");
 			sce.runApplication(bgwCompareDemo);
 		} catch (Exception e) {
 			System.out.println("Error while doing MPC: " + e.getMessage());

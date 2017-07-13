@@ -1,5 +1,14 @@
-org/custom/code/BgwCompareDemo.class
-org/custom/code/App.class
-org/custom/code/AdditionDemo.class
+org/custom/helper/PreprocessedFilesInputter.class
+org/custom/code/TestCustomInputDemo.class
+org/custom/helper/PreprocessGenerator$1.class
+org/custom/helper/PreprocessGenerator$PreprocessDataType.class
+org/custom/exception/EndOfInputException.class
+org/custom/helper/PreprocessGenerator.class
 org/custom/helper/BgwComparisonProtocolBuilder.class
 org/custom/code/CompareDemo.class
+org/custom/code/GeneratePreprocessedInputDemo.class
+org/custom/helper/PreprocessedFileInput.class
+org/custom/code/AdditionDemo.class
+org/custom/code/BgwCompareDemo.class
+org/custom/code/App.class
+org/custom/helper/PreprocessedPlayer.class
