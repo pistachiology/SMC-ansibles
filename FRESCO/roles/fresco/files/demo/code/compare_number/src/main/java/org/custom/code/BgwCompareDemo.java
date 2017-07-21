@@ -82,8 +82,6 @@ public class BgwCompareDemo implements Application {
 		iob.endCurScope();
 		seq.append(iob.getProtocol());
 
-		/*
-
 		SInt maxParty = npb.getSInt(0);
 		SInt maxPartyValue = x[0];
 		SInt cmpVal = npb.getSInt();
@@ -97,20 +95,7 @@ public class BgwCompareDemo implements Application {
 			seq.append(npb.getProtocol());
 		}
 
-		*/
-		SInt maxPartyValue = null;
-		SInt v2 = null;
-		try {
-			maxPartyValue = pfi.getSInt(1);
-			v2 = pfi.getSInt(1);
-			maxPartyValue = npb.add(v2, maxPartyValue);
-			seq.append(npb.getProtocol());
-			v2 = pfi.getSInt(2);
-			maxPartyValue = npb.add(v2, maxPartyValue);
-			seq.append(npb.getProtocol());
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+
 		// Output result
 		this.partyId = iob.output(maxPartyValue);
 		seq.append(iob.getProtocol());

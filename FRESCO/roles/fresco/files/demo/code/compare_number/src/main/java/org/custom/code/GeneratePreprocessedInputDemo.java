@@ -6,13 +6,28 @@ import org.custom.helper.PreprocessGenerator.PreprocessDataType;
 
 class GeneratePreprocessedInputDemo {
     public static void main(String args[]) {
-        PreprocessGenerator generator = new PreprocessGenerator(1, 3, 1);
-        generator.input(1000, PreprocessDataType.SInt);
-        generator.input(1000, PreprocessDataType.SInt);
-        generator.input(3000, PreprocessDataType.OInt);
-        generator.exportToFile();
-        generator = new PreprocessGenerator(2, 3, 1);
-        generator.input(10000, PreprocessDataType.SInt);
-        generator.exportToFile();
+        int numberOfInputParties = 500;
+        int numberOfComputationParties = 3;
+        int threshold = 1;
+        PreprocessGenerator[] generators = new PreprocessGenerator[numberOfInputParties];
+        for(int i = 1; i <= numberOfInputParties; i++) {
+            generators[i - 1] = new PreprocessGenerator(i, numberOfComputationParties, threshold);
+        }
+        
+        /* generate input */
+        int maxPartyId = ((int)(Math.random() * numberOfInputParties)) + 1;
+        for(int i = 1; i <= numberOfInputParties; i++){
+            if(i == maxPartyId) {
+                generators[i - 1].input(1000000, PreprocessDataType.SInt);
+            } else { 
+                generators[i - 1].input(((int)Math.random() * 100000) + 1, PreprocessDataType.SInt);
+            }
+        }
+        System.out.println("Max party id is " + maxPartyId);
+
+        /* export input */
+        for(int i = 1; i <= numberOfInputParties; i++) {
+            generators[i - 1].exportToFile();
+        }
     }
 }
